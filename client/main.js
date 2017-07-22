@@ -20,8 +20,11 @@ const players = [
   }
 ];
 
-const renderPlayers = () => {
-  return [<p key="1">1</p>,<p key="2">2</p>,<p key="3">3</p>];
+const renderPlayers = (playersList) => {
+
+  return playersList.map((player) => {
+    return <p key={player._id}>{player.name} has {player.score} point(s).</p>;
+  });
 };
 
 Meteor.startup(() => {
@@ -31,7 +34,7 @@ Meteor.startup(() => {
     <div>
       <h1>{title}</h1>
       <p>Hello {name}!</p>
-    {renderPlayers()}
+    {renderPlayers(players)}
     </div>
   );
   ReactDOM.render(jsx, document.getElementById('app'));
