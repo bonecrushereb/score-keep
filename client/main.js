@@ -1,24 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Meteor} from 'meteor/meteor';
+import {Tracker} from 'meteor/tracker';
+import {Players} from './../imports/api/players';
 
-const players = [
-  {
-    _id: '1',
-    name: 'Ben',
-    score: 60,
-  },
-  {
-    _id: '2',
-    name: 'Pete',
-    score: 10
-  },
-  {
-    _id: '3',
-    name: 'Gail',
-    score: 80
-  }
-];
 
 const renderPlayers = (playersList) => {
 
@@ -28,14 +13,18 @@ const renderPlayers = (playersList) => {
 };
 
 Meteor.startup(() => {
-  let title = 'Score Keep';
-  let name = 'Ben';
-  let jsx = (
-    <div>
-      <h1>{title}</h1>
+
+  Tracker.autorun(() => {
+    let title = 'Score Keep';
+    let players = Players.find().fetch();
+    let name = 'Ben';
+    let jsx = (
+      <div>
+        <h1>{title}</h1>
       <p>Hello {name}!</p>
     {renderPlayers(players)}
-    </div>
-  );
-  ReactDOM.render(jsx, document.getElementById('app'));
+  </div>
+);
+ReactDOM.render(jsx, document.getElementById('app'));
+  });
 });
